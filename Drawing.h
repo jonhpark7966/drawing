@@ -1,12 +1,8 @@
 /*
-* Copyright 2017 Google Inc.
-*
-* Use of this source code is governed by a BSD-style license that can be
-* found in the LICENSE file.
 */
 
-#ifndef Drawing_DEFINED
-#define Drawing_DEFINED
+#ifndef DRAWING_DEFINED
+#define DRAWING_DEFINED
 
 #include "sk_app/Application.h"
 #include "sk_app/Window.h"

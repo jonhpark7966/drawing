@@ -7,6 +7,8 @@
 
 #include "Drawing.h"
 
+#include "utils/image_reader.h"
+
 #include "GrContext.h"
 #include "SkCanvas.h"
 #include "SkGradientShader.h"
@@ -19,8 +21,7 @@ Application* Application::Create(int argc, char** argv, void* platformData) {
 }
 
 Drawing::Drawing(int argc, char** argv, void* platformData)
-        : fBackendType(Window::kNativeGL_BackendType)
-        , fRotationAngle(0) {
+        : fBackendType(Window::kNativeGL_BackendType)   {
     SkGraphics::Init();
 
     fWindow = Window::CreateNativeWindow(platformData);
@@ -46,12 +47,13 @@ void Drawing::onPaint(SkCanvas* canvas) {
     // Clear background
     canvas->clear(SK_ColorWHITE);
 
-    SkPaint paint;
-    paint.setColor(SK_ColorRED);
+    sk_sp<SkAnimatedImage> images = decode_file("/home/jonhpark/workspace/skia/resources/images/alphabetAnim.gif");
 
-    // Draw a rectangle with red paint
-    SkRect rect = SkRect::MakeXYWH(10, 10, 128, 128);
-    canvas->drawRect(rect, paint);
+    images->draw(canvas,0,0);
+    images->decodeNextFrame();
+    images->draw(canvas,20,20);
+    images->decodeNextFrame();
+    images->draw(canvas,40,40);
 
 }
 

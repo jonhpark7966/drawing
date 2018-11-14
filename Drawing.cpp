@@ -8,6 +8,7 @@
 #include "Drawing.h"
 
 #include "utils/image_reader.h"
+#include "bitmap_time/bitmap_time.h"
 
 #include "GrContext.h"
 #include "SkCanvas.h"
@@ -46,14 +47,10 @@ void Drawing::onBackendCreated() {
 void Drawing::onPaint(SkCanvas* canvas) {
     // Clear background
     canvas->clear(SK_ColorWHITE);
+    
+    BitmapTime bmtm("/home/jonhpark/Downloads/davey1_1.gif");
 
-    sk_sp<SkAnimatedImage> images = decode_file("/home/jonhpark/workspace/skia/resources/images/alphabetAnim.gif");
-
-    images->draw(canvas,0,0);
-    images->decodeNextFrame();
-    images->draw(canvas,20,20);
-    images->decodeNextFrame();
-    images->draw(canvas,40,40);
+    canvas->drawBitmap(bmtm.makeBitmap(), 20,20);
 
 }
 

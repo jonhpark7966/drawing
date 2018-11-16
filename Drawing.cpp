@@ -48,9 +48,12 @@ void Drawing::onPaint(SkCanvas* canvas) {
     // Clear background
     canvas->clear(SK_ColorWHITE);
     
-    BitmapTime bmtm("/home/jonhpark/Downloads/davey1_1.gif");
+    BitmapTime bmtm("/home/jonhpark/Downloads/colorloop.gif");
 
-    canvas->drawBitmap(bmtm.makeBitmap(), 20,20);
+    canvas->drawBitmap(bmtm.makeXTSlice(325), 0,0);
+
+    canvas->drawBitmap(bmtm.makeYTSlice(325), 800,0);
+
 
 }
 

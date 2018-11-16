@@ -12,14 +12,18 @@ public:
     BitmapTime(const char file_path[]);
     ~BitmapTime();
 
-    unsigned int get(const unsigned int x, const unsigned int y, const unsigned int t);
 
-    SkBitmap makeBitmap();
+    SkBitmap makeXTSlice(const unsigned int y);
+    SkBitmap makeYTSlice(const unsigned int x);
 
 private:
+  unsigned int getPixel(const unsigned int x, const unsigned int y, const unsigned int t);
+
   unsigned int* _data;
   //time is number of frame
   unsigned int _width, _height, _time;
+
+
 };
 
 #endif

@@ -24,6 +24,7 @@ BitmapTime::BitmapTime(const char file_path[]){
 
   for(unsigned int f = 0; f < _time; f++){
     memcpy((void*)(_data + _width*_height*f), images->fDisplayFrame.fBitmap.getPixels(), 4*_width*_height);
+    images->decodeNextFrame();
   }
 
 }
@@ -34,13 +35,12 @@ BitmapTime::~BitmapTime(){
     delete[] _data;
 }
 
-unsigned int BitmapTime::get(const unsigned int x, const unsigned int y, const unsigned int t){
-  return *(_data + x + _width*y + _width*_height+t);
+unsigned int BitmapTime::getPixel(const unsigned int x, const unsigned int y, const unsigned int t){
+  return *(_data + x + _width*y + _width*_height*t);
 }
 
-SkBitmap BitmapTime::makeBitmap(){
+SkBitmap BitmapTime::makeXTSlice(const unsigned int y){
 
-  //FIXME: for now make bitmap of y = 0;
   SkBitmap ret;
   //assume bitmap is BGRA 
   SkImageInfo info = SkImageInfo::MakeN32Premul(_width, _time);
@@ -49,12 +49,30 @@ SkBitmap BitmapTime::makeBitmap(){
 
   for(unsigned int j = 0; j < _time; ++j){
     for(unsigned int i = 0; i < _width; ++i){
-    
-      *(((unsigned int*)pixels) + i + j*_width) = get(i, 0, j);
+      *(((unsigned int*)pixels) + i + j*_width) = getPixel(i, y, j);
     }
   }
 
   ret.installPixels(info, pixels, _width*4);
+
+  return ret;
+}
+
+SkBitmap BitmapTime::makeYTSlice(const unsigned int x){
+
+  SkBitmap ret;
+  //assume bitmap is BGRA 
+  SkImageInfo info = SkImageInfo::MakeN32Premul(_height, _time);
+
+  void* pixels = malloc(_height*_time*4);
+
+  for(unsigned int j = 0; j < _time; ++j){
+    for(unsigned int i = 0; i < _height; ++i){
+      *(((unsigned int*)pixels) + i + j*_height) = getPixel(x, i, j);
+    }
+  }
+
+  ret.installPixels(info, pixels, _height*4);
 
   return ret;
 }
